@@ -25,7 +25,6 @@ def make_text(text, font_size, color, bool):
 
 image = pygame.image.load(
     r"C:\Users\hadin\PROGRAM_LANGLUAGE\jumping_simulator\data\image\dino.webp")
-# Ensure image fits the character size
 image = pygame.transform.scale(image, (50, 50))
 image2 = pygame.image.load(
     r"C:\Users\hadin\PROGRAM_LANGLUAGE\jumping_simulator\data\image\bullet.png")
