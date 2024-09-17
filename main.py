@@ -22,17 +22,6 @@ def make_text(text, font_size, color, bool):
     else:
         return 0
 
-
-image = pygame.image.load(
-    r"C:\Users\hadin\PROGRAM_LANGLUAGE\jumping_simulator\data\image\dino.webp")
-image = pygame.transform.scale(image, (50, 50))
-image2 = pygame.image.load(
-    r"C:\Users\hadin\PROGRAM_LANGLUAGE\jumping_simulator\data\image\bullet.png")
-image2 = pygame.transform.scale(image2, (40, 38))
-background = pygame.image.load(
-    r"C:\Users\hadin\PROGRAM_LANGLUAGE\jumping_simulator\data\image\background2.png")
-background = pygame.transform.scale(background, (800, 600))
-
 cube_x = 100
 cube_y = 500
 cube_wight = 30
@@ -113,19 +102,13 @@ while run:
     point_y += point_speed
     lava_x -= lava_speed
 
-    screen.blit(background, (0, 0))
-    screen.blit(image, (cube_x, cube_y))
-    screen.blit(image2, (lava_x, lava_y))
-    screen.blit(text2, (700, 20))
-    screen.blit(text1, (700, 40))
-
     pygame.draw.rect(screen, RED, (point_x, point_y, 10, 10))
     point = pygame.Rect(point_x, point_y, 10, 10)
     player = pygame.Rect(cube_x, cube_y, cube_wight, cube_height)
     lava = pygame.Rect(lava_x, lava_y + 10, 20, 20)
     pygame.draw.rect(screen, BLUE, (t, 550, 8000, 5))
-    # pygame.draw.rect(screen, RED, (cube_x, cube_y, cube_wight, cube_height))
-    # pygame.draw.rect(screen, PURPLE, (lava_x, lava_y, 20, 20))
+    pygame.draw.rect(screen, RED, (cube_x, cube_y, cube_wight, cube_height))
+    pygame.draw.rect(screen, PURPLE, (lava_x, lava_y, 20, 20))
 
     if pygame.Rect.colliderect(point, player):
         p += 5
