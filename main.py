@@ -1,5 +1,6 @@
 import random
 import pygame
+import math
 
 pygame.init()
 wight = 800
@@ -22,14 +23,14 @@ def make_text(text, font_size, color, bool):
     else:
         return 0
 
-cube_x = 100
-cube_y = 500
+cube_x = 0
+cube_y = 550
 cube_wight = 30
 cube_height = 30
-gravity = 10
+gravity = 0.5
 cube_speed = 2.25
 jump = False
-height = cube_y - 100
+height = 375
 ground = True
 saitama = 800
 t = 0
@@ -42,14 +43,23 @@ lava_x = 800
 lava_y = 510
 p = 0
 clock = pygame.time.Clock()
+vel = 0
+jump_vel = 0
+jump_speed = 10
 
 run = True
 while run:
-    clock.tick(60)
+    clock.tick(65)
     screen.fill(WHITE)
-    text1 = make_text("point: {}".format(p), 34, RED, 0)
-    fps = clock.get_fps()
-    text2 = make_text("fps: {}".format(fps), 30, RED, 0)
+    get_fps = str(clock.get_fps())
+    fps = get_fps[:4]
+    text = make_text("score: {}".format(p), 40, RED, 0)
+    if float(get_fps) < 50 and float(get_fps) > 30:
+        fps_check = make_text("fps {} normal".format(fps), 40, RED, 0)
+    elif float(get_fps) < 30:
+        fps_check = make_text("fps {} low".format(fps), 40, PURPLE, 0)
+    else:
+        fps_check = make_text("fps {} high".format(fps), 40, BLUE, 0)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -79,20 +89,24 @@ while run:
     # jumping
     if keys[pygame.K_SPACE] and ground:
         jump = True
+        jump_vel = jump_speed
 
     if jump:
-        cube_y -= gravity
+        jump_vel -= gravity
+        cube_y -= jump_vel
         ground = False
+        if jump_vel <= 0:
+            jump = False
 
-    if cube_y <= height:
-        jump = False
-
-    if not jump:
-        cube_y += gravity
+    if not jump and not ground:
+        vel += gravity
+        cube_y += vel
 
     if cube_y >= 500:
         cube_y = 500
         ground = True
+        vel = 0
+        jump_vel = 0
 
     if cube_x <= 0:
         cube_x = 0
@@ -102,11 +116,13 @@ while run:
     point_y += point_speed
     lava_x -= lava_speed
 
+    screen.blit(text, (0, 0))
+    screen.blit(fps_check, (0, 40))
     pygame.draw.rect(screen, RED, (point_x, point_y, 10, 10))
     point = pygame.Rect(point_x, point_y, 10, 10)
     player = pygame.Rect(cube_x, cube_y, cube_wight, cube_height)
     lava = pygame.Rect(lava_x, lava_y + 10, 20, 20)
-    pygame.draw.rect(screen, BLUE, (t, 550, 8000, 5))
+    pygame.draw.rect(screen, BLUE, (t, 530, 8000, 5))
     pygame.draw.rect(screen, RED, (cube_x, cube_y, cube_wight, cube_height))
     pygame.draw.rect(screen, PURPLE, (lava_x, lava_y, 20, 20))
 
